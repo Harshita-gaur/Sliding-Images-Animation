@@ -10,9 +10,9 @@ A small yet captivating image slider built with **HTML**, **CSS**, and **JavaScr
 - **Lightweight**: No external libraries—just pure HTML, CSS, and JavaScript.
 
 ## 💡 How It Works
-HTML: Structures the image slider using a container and image elements.
-CSS: Styles the slider, ensures responsiveness, and creates smooth animations.
-JavaScript: Tracks user input (mouse or touch), calculates movement, and updates the slider dynamically.
+HTML: Structures the image slider using a container and image elements.  
+CSS: Styles the slider, ensures responsiveness, and creates smooth animations.  
+JavaScript: Tracks user input (mouse or touch), calculates movement, and updates the slider dynamically.  
 
 ## 🚀 Quick Start
 https://harshita-gaur.github.io/Sliding-Images-Animation/
