@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smooth animation</title>
+    <style>
+        h1{
+            color:gold;
+            margin-left:90vh;
+        }
+        body{
+            height:100vh;
+            width:100vw;
+            background-color:black;
+            margin:0rem;
+            overflow:hidden;
+        }
+        #image-track> .image{
+            width:40vmin;
+            height:56vmin;
+            object-fit:cover;
+            object-position:100% 50%;
+        }
+        #image-track{
+            display:flex;
+            gap:4vmin;
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform:translate(0%,-50%);
+        }
+    </style>
+</head>
+<body>
+    <h1>Sliding Images Animation</h1>
+    <div id="image-track" data-mouse-down-at="0" data-prev-percentage="0">
+        <img class="image" src="images\alex-preusser-0Qchak3o2a4-unsplash.jpg" draggable="false" />
+        <img class="image" src="images\alyssa-dephillips-OWc9gbZKk9s-unsplash.jpg" draggable="false" />
+        <img class="image" src="images\david-clode-gHXaANn_wXM-unsplash.jpg" draggable="false" />
+        <img class="image" src="images\david-clode-OxsU3hHvG90-unsplash.jpg" draggable="false" />
+        <img class="image" src="images\hanny-naibaho--Go4DH2pZbc-unsplash.jpg" draggable="false" />
+        <img class="image" src="images\kote-puerto-so5nsYDOdxw-unsplash.jpg" draggable="false" />
+        <img class="image" src="images\tom-dils-_9zEZ7QBPiY-unsplash.jpg" draggable="false" />
+        <img class="image" src="images\yosuke-ota-1JloC88VbQY-unsplash.jpg" draggable="false" />
+    </div>
+    <script>
+        const track = document.getElementById("image-track");
+
+        const handleOnDown = e => track.dataset.mouseDownAt = e.clientX;
+        
+        const handleOnUp = () => {
+          track.dataset.mouseDownAt = "0";  
+          track.dataset.prevPercentage = track.dataset.percentage;
+        }
+        
+        const handleOnMove = e => {
+          if(track.dataset.mouseDownAt === "0") return;
+          
+          const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX,
+                maxDelta = window.innerWidth / 2;
+          
+          const percentage = (mouseDelta / maxDelta) * -100,
+                nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage) + percentage,
+                nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+          
+          track.dataset.percentage = nextPercentage;
+          
+          track.animate({
+            transform: `translate(${nextPercentage}%, -50%)`
+          }, { duration: 1200, fill: "forwards" });
+          
+          for(const image of track.getElementsByClassName("image")) {
+            image.animate({
+              objectPosition: `${100 + nextPercentage}% center`
+            }, { duration: 1200, fill: "forwards" });
+          }
+        }
+        
+        window.onmousedown = e => handleOnDown(e);
+        window.ontouchstart = e => handleOnDown(e.touches[0]);
+        window.onmouseup = e => handleOnUp(e);
+        window.ontouchend = e => handleOnUp(e.touches[0]);
+        window.onmousemove = e => handleOnMove(e);
+        window.ontouchmove = e => handleOnMove(e.touches[0]);
+    </script> 
+</body>
+</html>
+
